@@ -20,6 +20,10 @@
     "react-dom": "18.2.0",
     "typescript": "4.9.4"
   },
+  "engines": {
+    "node": ">=16.13.2",
+    "yarn": ">=1.22.15"
+  },
   "devDependencies": {
     "eslint-config-prettier": "^8.6.0"
   }
