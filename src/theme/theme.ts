@@ -1,3 +1,4 @@
+import LinkBehaviour from '@/components/LinkBehaviour';
 import { createTheme } from '@mui/material/styles';
 import { Roboto } from '@next/font/google';
 
@@ -15,6 +16,14 @@ const theme = createTheme({
 	},
 	typography: {
 		fontFamily: roboto.style.fontFamily,
+	},
+	components: {
+		MuiLink: {
+			defaultProps: {
+				// @ts-ignore
+				component: LinkBehaviour,
+			},
+		},
 	},
 });
 

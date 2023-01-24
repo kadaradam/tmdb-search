@@ -3,8 +3,10 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
+import MuiLink from '@mui/material/Link';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+
 import Head from 'next/head';
 import React from 'react';
 
@@ -24,9 +26,14 @@ const SearchLayout = ({ children, query }: SearchLayoutProps) => {
 			<AppBar position="static">
 				<Container maxWidth="lg">
 					<Toolbar component="nav" variant="dense">
-						<Typography component="h5" variant="h5">
+						<MuiLink
+							href="/"
+							variant="h5"
+							underline="none"
+							sx={{ textDecoration: 'none', color: 'unset' }}
+						>
 							TMDB Search
-						</Typography>
+						</MuiLink>
 						<Box flexGrow={1} />
 						<SearchInput />
 					</Toolbar>
