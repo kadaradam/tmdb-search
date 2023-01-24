@@ -43,7 +43,7 @@ const SearchItem = ({ item, configuration }: SearchItemProps) => {
 				/>
 			</Box>
 			<Typography variant="h6" fontWeight="bold">
-				{item.title}
+				{item.original_name || item.title}
 			</Typography>
 			<Typography variant="caption" textTransform="uppercase">
 				{item.vote_count} votes
