@@ -1,3 +1,4 @@
+import SearchInput from '@/components/SearchInput';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -26,6 +27,8 @@ const SearchLayout = ({ children, query }: SearchLayoutProps) => {
 						<Typography component="h5" variant="h5">
 							TMDB Search
 						</Typography>
+						<Box flexGrow={1} />
+						<SearchInput />
 					</Toolbar>
 				</Container>
 			</AppBar>
