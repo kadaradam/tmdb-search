@@ -1,10 +1,12 @@
-import '@/components/styles/globals.css';
 import createEmotionCache from '@/theme/createEmotionCache';
 import { ThemeStateProvider } from '@/theme/ThemeStateProvider';
 import { CacheProvider, EmotionCache } from '@emotion/react';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import CssBaseline from '@mui/material/CssBaseline';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const clientSideEmotionCache = createEmotionCache();
 interface MyAppProps extends AppProps {
@@ -26,7 +28,12 @@ export default function App({
 			</Head>
 			<ThemeStateProvider>
 				<CssBaseline />
-				<Component {...pageProps} />
+				<ToastContainer
+					position="top-center"
+					hideProgressBar
+					theme="colored"
+					icon={<CheckCircleOutlineIcon />}
+				/>
 			</ThemeStateProvider>
 		</CacheProvider>
 	);
