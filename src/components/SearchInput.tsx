@@ -1,3 +1,4 @@
+import colors from '@/theme/colors';
 import SearchIcon from '@mui/icons-material/Search';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
@@ -43,6 +44,7 @@ const SearchInput = () => {
 					</InputAdornment>
 				}
 				label="Search"
+				sx={{ bgcolor: colors.common.black }}
 			/>
 		</FormControl>
 	);
