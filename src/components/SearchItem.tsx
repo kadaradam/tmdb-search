@@ -2,6 +2,7 @@ import StarIcon from '@mui/icons-material/Star';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
+import { styled } from '@mui/system';
 import Image from 'next/image';
 import { useState } from 'react';
 import { TmdbConfigType, TrendingType } from '../types';
@@ -17,7 +18,7 @@ const SearchItem = ({ item, configuration }: SearchItemProps) => {
 	);
 
 	return (
-		<Box>
+		<AnimatedBox>
 			<Box
 				position="relative"
 				sx={{
@@ -64,8 +65,15 @@ const SearchItem = ({ item, configuration }: SearchItemProps) => {
 					/>
 				</Box>
 			) : null}
-		</Box>
+		</AnimatedBox>
 	);
 };
+
+const AnimatedBox = styled(Box)({
+	'&:hover ': {
+		transition: 'transform 450ms',
+		transform: 'translateY(-10px)',
+	},
+});
 
 export default SearchItem;
