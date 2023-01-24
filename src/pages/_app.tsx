@@ -28,6 +28,7 @@ export default function App({
 			</Head>
 			<ThemeStateProvider>
 				<CssBaseline />
+				<Component {...pageProps} />
 				<ToastContainer
 					position="top-center"
 					hideProgressBar
