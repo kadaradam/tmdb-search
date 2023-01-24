@@ -76,7 +76,7 @@ export default function Search({
 			) : null}
 			<Grid container spacing={4}>
 				{movies.map((item) => (
-					<Grid item xs={2} key={item.id}>
+					<Grid item xs={6} sm={4} md={2} key={item.id}>
 						<SearchItem item={item} configuration={configuration} />
 					</Grid>
 				))}
