@@ -1,11 +1,10 @@
+import Footer from '@/components/Footer';
 import SearchInput from '@/components/SearchInput';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Divider from '@mui/material/Divider';
 import MuiLink from '@mui/material/Link';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 
 import Head from 'next/head';
 import React from 'react';
@@ -46,17 +45,7 @@ const SearchLayout = ({ children, query }: SearchLayoutProps) => {
 			>
 				{children}
 			</Container>
-			<Divider />
-			<Box component="footer" sx={{ bgcolor: '#0a0c0c' }}>
-				<Container maxWidth="lg" component="main" sx={{ py: 7 }}>
-					<Typography variant="h6" mb={2}>
-						TMDB Search © {new Date().getFullYear()}
-					</Typography>
-					<Typography variant="body2">
-						Crafted with ❤️ in Hungary
-					</Typography>
-				</Container>
-			</Box>
+			<Footer />
 		</>
 	);
 };
