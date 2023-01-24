@@ -1,4 +1,5 @@
+export { type TmdbConfigType } from './TMDBConfig.type';
 export {
 	type TrendingApiResponseType,
 	type TrendingType,
-} from './TrendingType';
+} from './Trending.type';
