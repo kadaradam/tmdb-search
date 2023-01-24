@@ -5,7 +5,7 @@ const nextConfig = {
 		domains: ['image.tmdb.org'],
 		remotePatterns: [
 			{
-				protocol: 'http',
+				protocol: 'https',
 				hostname: 'image.tmdb.org',
 				port: '',
 				pathname: '/t/p/**',

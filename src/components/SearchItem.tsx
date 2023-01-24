@@ -13,7 +13,7 @@ type SearchItemProps = {
 
 const SearchItem = ({ item, configuration }: SearchItemProps) => {
 	const [imgSrc, setImgSrc] = useState<string>(
-		`${configuration.images.base_url}w300${item.poster_path}`
+		`${configuration.images.secure_base_url}w300${item.poster_path}`
 	);
 
 	return (
