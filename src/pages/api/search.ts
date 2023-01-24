@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { TrendingApiResponseType } from '@/types/Trending.type';
+import { TrendingApiResponseType } from '@/types';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import tmdbAxios from 'src/instances/tmdbAxios';
 import { ServerError } from 'src/utils/ServerError';

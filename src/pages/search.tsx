@@ -1,6 +1,6 @@
 import SearchItem from '@/components/SearchItem';
 import SearchLayout from '@/layouts/SearchLayout';
-import { TrendingApiResponseType, TrendingType } from '@/types/Trending.type';
+import { TrendingApiResponseType, TrendingType } from '@/types';
 import { LoadingButton } from '@mui/lab';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
