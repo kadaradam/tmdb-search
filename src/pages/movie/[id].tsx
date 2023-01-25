@@ -37,7 +37,7 @@ const POSTER_HEIGHT = 308;
 export const getServerSideProps: GetServerSideProps<{
 	configuration: TmdbConfigType;
 	movie: MovieType;
-	wikipedia: WikipediaType | undefined;
+	wikipedia: WikipediaType | null;
 }> = async ({ params }) => {
 	try {
 		const { id } = params as ParamsType;
@@ -57,7 +57,7 @@ export const getServerSideProps: GetServerSideProps<{
 		);
 
 		const wikiPageFound = wikipedia && !wikipedia?.query.pages[-1];
-		let wikipediaData: WikipediaType | undefined = undefined;
+		let wikipediaData: WikipediaType | null = null;
 
 		if (wikiPageFound) {
 			const wikiPageId = Object.keys(wikipedia.query.pages)[0];
