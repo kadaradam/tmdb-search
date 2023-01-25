@@ -6,7 +6,7 @@ export type MovieType = {
 	genres: {
 		id: number;
 		name: string;
-	};
+	}[];
 	homepage: string | null;
 	id: number;
 	imdb_id: string | null;
