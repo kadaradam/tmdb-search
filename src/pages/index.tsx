@@ -15,7 +15,7 @@ export const getServerSideProps: GetServerSideProps<{
 	trending: TrendingType[];
 }> = async () => {
 	const [{ data: trending }, { data: configuration }] = await Promise.all([
-		tmdbAxios.get<TrendingApiResponseType>('/trending/all/day'),
+		tmdbAxios.get<TrendingApiResponseType>('/trending/movie/day'),
 		tmdbAxios.get<TmdbConfigType>('/configuration'),
 	]);
 
