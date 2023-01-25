@@ -33,6 +33,12 @@ const colors = {
 	pictonBlue: {
 		50: '#27BDEA',
 	},
+	starYellow: {
+		50: '#faaf00',
+	},
+	imdbYellow: {
+		50: '#FBBF14',
+	},
 	common: {
 		white: '#FFFFFF',
 		black: '#000000',
