@@ -1,13 +1,15 @@
+import RelatedItemsDrawer from '@/components/RelatedItemsDrawer';
 import SearchItem from '@/components/SearchItem';
 import SearchLayout from '@/layouts/SearchLayout';
 import { TrendingApiResponseType, TrendingType } from '@/types';
-import { LoadingButton } from '@mui/lab';
+import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { Fetcher } from 'swr';
 import useSWRInfinite from 'swr/infinite';
 import clientSideAxios from '../instances/clientSideAxios';
@@ -42,6 +44,10 @@ export default function Search({
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const router = useRouter();
 	const { query } = router.query;
+	const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+	const [selectedMovie, setSelectedMovie] = useState<TrendingType | null>(
+		null
+	);
 	const { data, error, size, setSize, isLoading, isValidating } =
 		useSWRInfinite(
 			(index) =>
@@ -62,6 +68,11 @@ export default function Search({
 	const isEndReached =
 		isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
 
+	const handleShowRelated = (movieItem: TrendingType) => {
+		setSelectedMovie(movieItem);
+		setTimeout(() => setDrawerOpen(true), 250);
+	};
+
 	return (
 		<SearchLayout query={query as string}>
 			<Typography variant="h4" fontWeight="bold" mb={3}>
@@ -77,7 +88,11 @@ export default function Search({
 			<Grid container spacing={4}>
 				{movies.map((item) => (
 					<Grid item xs={6} sm={4} md={2} key={item.id}>
-						<SearchItem item={item} configuration={configuration} />
+						<SearchItem
+							item={item}
+							configuration={configuration}
+							handleShowRelated={handleShowRelated}
+						/>
 					</Grid>
 				))}
 			</Grid>
@@ -97,6 +112,14 @@ export default function Search({
 						Load more
 					</LoadingButton>
 				</Box>
+			) : null}
+			{selectedMovie ? (
+				<RelatedItemsDrawer
+					movie={selectedMovie}
+					drawerOpen={drawerOpen}
+					setDrawerOpen={setDrawerOpen}
+					configuration={configuration}
+				/>
 			) : null}
 		</SearchLayout>
 	);

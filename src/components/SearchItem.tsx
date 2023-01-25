@@ -1,5 +1,6 @@
 import colors from '@/theme/colors';
 import StarIcon from '@mui/icons-material/Star';
+import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
@@ -12,12 +13,26 @@ import { TmdbConfigType, TrendingType } from '../types';
 type SearchItemProps = {
 	item: TrendingType;
 	configuration: TmdbConfigType;
+	handleShowRelated?: (arg0: TrendingType) => void;
 };
 
-const SearchItem = ({ item, configuration }: SearchItemProps) => {
+const SearchItem = ({
+	item,
+	configuration,
+	handleShowRelated,
+}: SearchItemProps) => {
 	const [imgSrc, setImgSrc] = useState<string>(
 		`${configuration.images.secure_base_url}w300${item.poster_path}`
 	);
+
+	const handleRelatedClick = (e: React.MouseEvent) => {
+		// Stop NextLink redirect click
+		e.preventDefault();
+
+		if (handleShowRelated) {
+			handleShowRelated(item);
+		}
+	};
 
 	return (
 		<NextLink
@@ -74,6 +89,11 @@ const SearchItem = ({ item, configuration }: SearchItemProps) => {
 							}
 						/>
 					</Box>
+				) : null}
+				{handleShowRelated ? (
+					<Button onClick={handleRelatedClick} size="small">
+						Related
+					</Button>
 				) : null}
 			</AnimatedBox>
 		</NextLink>
