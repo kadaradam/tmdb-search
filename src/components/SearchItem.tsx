@@ -1,3 +1,4 @@
+import colors from '@/theme/colors';
 import StarIcon from '@mui/icons-material/Star';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
@@ -48,7 +49,11 @@ const SearchItem = ({ item, configuration }: SearchItemProps) => {
 						}
 					/>
 				</Box>
-				<Typography variant="h6" fontWeight="bold">
+				<Typography
+					variant="h6"
+					fontWeight="bold"
+					className="movie-title"
+				>
 					{item.original_name || item.title}
 				</Typography>
 				<Typography variant="caption" textTransform="uppercase">
@@ -80,11 +85,9 @@ const AnimatedBox = styled(Box)({
 		transition: 'transform 450ms',
 		transform: 'translateY(-10px)',
 	},
-});
-
-const ATag = styled('a')({
-	textDecoration: 'none',
-	color: 'unset',
+	'&:hover > .movie-title': {
+		color: colors.pictonBlue[50],
+	},
 });
 
 export default SearchItem;
