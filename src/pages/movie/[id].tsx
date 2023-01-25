@@ -276,7 +276,7 @@ const HeroBackgroundBox = styled(Box)({
 const Li = styled('li')(({ theme }) => ({
 	display: 'inline-block',
 	verticalAlign: 'middle',
-	':not(:first-child):before ': {
+	':not(:first-of-type):before ': {
 		display: 'inline-block',
 		content: '"•"',
 		fontSize: '80%',
