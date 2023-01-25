@@ -30,6 +30,9 @@ const colors = {
 		10: '#07201A',
 		0: '#000000',
 	},
+	pictonBlue: {
+		50: '#27BDEA',
+	},
 	common: {
 		white: '#FFFFFF',
 		black: '#000000',
