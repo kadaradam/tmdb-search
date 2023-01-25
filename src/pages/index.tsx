@@ -92,7 +92,7 @@ const HeroBackgroundBox = styled(Box)({
 const WelcomeTypography = styled((props: TypographyProps) => (
 	<Typography variant="h2" {...props} />
 ))(({ theme }) => ({
-	backgroundColor: 'rgba(0,0,0,0.25)',
+	textShadow: '#0d0d0d 5px 0 10px',
 	padding: theme.spacing(1),
 	textAlign: 'center',
 	width: '100%',
