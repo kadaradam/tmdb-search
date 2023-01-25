@@ -49,7 +49,7 @@ export default function Home({
 			</HeroBackgroundBox>
 			<Container maxWidth="lg" sx={{ minHeight: '50vh', my: 5 }}>
 				<Typography variant="h4" fontWeight="bold" mb={3}>
-					Trending
+					Trending Movies
 				</Typography>
 				<Grid container spacing={4}>
 					{shortTrending.map((item) => (
