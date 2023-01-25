@@ -295,4 +295,5 @@ const Ul = styled('ul')({
 
 const ContentBox = styled(Box)(({ theme }) => ({
 	marginTop: `${(POSTER_HEIGHT / 2 - parseInt(theme.spacing(2))) * -1}px`,
+	marginBottom: theme.spacing(5),
 }));
