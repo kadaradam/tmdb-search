@@ -219,7 +219,7 @@ export default function MovieDetails({
 								/>
 							</Tooltip>
 							<Typography variant="body1" ml={1} mr={2}>
-								{movie.vote_average}
+								{Number(movie.vote_average.toFixed(1))}
 							</Typography>
 							<Tooltip title="Revenue" placement="top">
 								<AttachMoneyIcon
