@@ -3,16 +3,12 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import tmdbAxios from 'src/instances/tmdbAxios';
 import { ServerError } from 'src/utils/ServerError';
 
-interface RecommendationsApiRequest extends NextApiRequest {
-	body: { movieId: number };
-}
-
 export default async function handler(
-	req: RecommendationsApiRequest,
+	req: NextApiRequest,
 	res: NextApiResponse<TrendingApiResponseType | ServerError>
 ) {
 	if (req.method === 'GET') {
-		const { movieId } = req.body;
+		const { movieId } = req.query;
 
 		try {
 			const { data } = await tmdbAxios.get<TrendingApiResponseType>(
