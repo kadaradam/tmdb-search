@@ -1,0 +1,1 @@
+export { ImdbIcon } from './ImdbIcon';
