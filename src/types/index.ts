@@ -4,3 +4,7 @@ export {
 	type TrendingApiResponseType,
 	type TrendingType,
 } from './Trending.type';
+export {
+	type WikipediaApiResponseType,
+	type WikipediaType,
+} from './Wikipedia.type';

@@ -1,6 +1,11 @@
 import MovieLayout from '@/layouts/MovieLayout';
 import colors from '@/theme/colors';
-import { MovieType, TmdbConfigType } from '@/types';
+import {
+	MovieType,
+	TmdbConfigType,
+	WikipediaApiResponseType,
+	WikipediaType,
+} from '@/types';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import LinkIcon from '@mui/icons-material/Link';
 import StarIcon from '@mui/icons-material/Star';
@@ -12,15 +17,15 @@ import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/system';
+import axios from 'axios';
 import { format, formatDuration } from 'date-fns';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Image from 'next/image';
 import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import { useState } from 'react';
-import { IMDB_BASE_URL } from 'src/constants';
-import { ImdbIcon } from 'src/icons';
+import { IMDB_BASE_URL, WIKIPEDIA_BASE_URL } from 'src/constants';
+import { ImdbIcon, WikipediaIcon } from 'src/icons';
 import tmdbAxios from 'src/instances/tmdbAxios';
 
 interface ParamsType extends ParsedUrlQuery {
@@ -32,6 +37,7 @@ const POSTER_HEIGHT = 308;
 export const getServerSideProps: GetServerSideProps<{
 	configuration: TmdbConfigType;
 	movie: MovieType;
+	wikipedia: WikipediaType | undefined;
 }> = async ({ params }) => {
 	try {
 		const { id } = params as ParamsType;
@@ -42,10 +48,32 @@ export const getServerSideProps: GetServerSideProps<{
 				tmdbAxios.get<MovieType>(`/movie/${id}`),
 			]);
 
+		const title = movie.original_title || movie.title;
+
+		const { data: wikipedia } = await axios.get<WikipediaApiResponseType>(
+			`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${encodeURI(
+				title
+			)}`
+		);
+
+		const wikiPageFound = wikipedia && !wikipedia?.query.pages[-1];
+		let wikipediaData: WikipediaType | undefined = undefined;
+
+		if (wikiPageFound) {
+			const wikiPageId = Object.keys(wikipedia.query.pages)[0];
+			const wikiPage = wikipedia.query.pages[wikiPageId];
+
+			wikipediaData = {
+				pageId: wikiPage.pageid,
+				summary: wikiPage.extract,
+			};
+		}
+
 		return {
 			props: {
 				configuration,
 				movie,
+				wikipedia: wikipediaData,
 			},
 		};
 	} catch (err) {
@@ -58,14 +86,15 @@ export const getServerSideProps: GetServerSideProps<{
 export default function MovieDetails({
 	configuration,
 	movie,
+	wikipedia,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-	const router = useRouter();
 	const [imgSrc, setImgSrc] = useState<string>(
 		`${configuration.images.secure_base_url}w1280${movie.poster_path}`
 	);
 
 	const title = movie.original_title || movie.title;
 	const hasGenres = !!movie.genres.length;
+	const hasWikiPage = !!wikipedia;
 
 	return (
 		<MovieLayout title={title}>
@@ -98,6 +127,26 @@ export default function MovieDetails({
 								{title}
 							</Typography>
 							<Box flexGrow={1} />
+							{hasWikiPage ? (
+								<Tooltip title="Open Wikipedia">
+									<NextLink
+										href={
+											WIKIPEDIA_BASE_URL +
+											wikipedia.pageId
+										}
+										target="_blank"
+										passHref
+									>
+										<IconButton
+											aria-label="open wikipedia"
+											component="label"
+											disableRipple
+										>
+											<WikipediaIcon fontSize="large" />
+										</IconButton>
+									</NextLink>
+								</Tooltip>
+							) : null}
 							{movie.imdb_id ? (
 								<Tooltip title="Open IMDB">
 									<NextLink
@@ -192,8 +241,20 @@ export default function MovieDetails({
 					</Box>
 				</Box>
 				<ContentBox>
-					<Typography variant="h6">Overview</Typography>
+					<Typography variant="h6" gutterBottom>
+						Overview by IMDB
+					</Typography>
 					<Typography variant="body1">{movie.overview}</Typography>
+					{hasWikiPage ? (
+						<Box mt={2}>
+							<Typography variant="h6" gutterBottom>
+								Overview by Wikipedia
+							</Typography>
+							<Typography variant="body1">
+								{wikipedia.summary}
+							</Typography>
+						</Box>
+					) : null}
 				</ContentBox>
 			</Container>
 		</MovieLayout>
