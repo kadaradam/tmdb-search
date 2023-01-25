@@ -92,7 +92,7 @@ const SearchItem = ({
 				) : null}
 				{handleShowRelated ? (
 					<Button onClick={handleRelatedClick} size="small">
-						Related
+						Show Related
 					</Button>
 				) : null}
 			</AnimatedBox>
