@@ -13,15 +13,27 @@ import tmdbAxios from '../instances/tmdbAxios';
 export const getServerSideProps: GetServerSideProps<{
 	configuration: TmdbConfigType;
 	trending: TrendingType[];
+	randomTrending: TrendingType;
 }> = async () => {
 	const [{ data: trending }, { data: configuration }] = await Promise.all([
 		tmdbAxios.get<TrendingApiResponseType>('/trending/movie/day'),
 		tmdbAxios.get<TmdbConfigType>('/configuration'),
 	]);
 
+	const allTrendingItems = trending.results;
+	const shortTrendingItems = allTrendingItems.slice(0, 12);
+
+	/* 
+		Get random item on server side, so the item will
+		be the same when page renders on client side
+	*/
+	const randomTrending =
+		allTrendingItems[Math.floor(Math.random() * allTrendingItems.length)];
+
 	return {
 		props: {
-			trending: trending.results,
+			trending: shortTrendingItems,
+			randomTrending,
 			configuration,
 		},
 	};
@@ -30,17 +42,13 @@ export const getServerSideProps: GetServerSideProps<{
 export default function Home({
 	trending,
 	configuration,
+	randomTrending,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-	const randomTrending =
-		trending[Math.floor(Math.random() * trending.length)];
-
-	const shortTrending = trending.slice(0, 12);
-
 	return (
 		<HomeLayout>
 			<HeroBackgroundBox
-				sx={{
-					backgroundImage: `url(${configuration.images.secure_base_url}w1280${randomTrending.backdrop_path})`,
+				style={{
+					backgroundImage: `url("${configuration.images.secure_base_url}w1280${randomTrending.backdrop_path}")`,
 				}}
 			>
 				<OverlayBox />
@@ -52,7 +60,7 @@ export default function Home({
 					Trending Movies
 				</Typography>
 				<Grid container spacing={4}>
-					{shortTrending.map((item) => (
+					{trending.map((item) => (
 						<Grid item xs={6} sm={4} md={2} key={item.id}>
 							<SearchItem
 								item={item}
