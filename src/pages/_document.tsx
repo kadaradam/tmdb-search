@@ -20,7 +20,19 @@ const MyDocument = ({ emotionStyleTags }: DocumentProps) => {
 		<Html lang="en">
 			<Head>
 				<meta name="theme-color" content={theme.palette.primary.main} />
-				<link rel="shortcut icon" href="/favicon.ico" />
+				<meta
+					name="description"
+					content="Search for your favourite movies on TMDB"
+				/>
+				<link
+					rel="apple-touch-icon"
+					sizes="180x180"
+					href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>"
+				/>
+				<link
+					rel="icon"
+					href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>"
+				/>
 				<meta name="emotion-insertion-point" content="" />
 				{emotionStyleTags}
 			</Head>
