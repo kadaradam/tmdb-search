@@ -1,5 +1,5 @@
 import LinkBehaviour from '@/components/LinkBehaviour';
-import { createTheme } from '@mui/material/styles';
+import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 import { Roboto } from '@next/font/google';
 
 export const roboto = Roboto({
@@ -27,4 +27,4 @@ const theme = createTheme({
 	},
 });
 
-export default theme;
+export default responsiveFontSizes(theme);
