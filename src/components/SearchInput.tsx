@@ -3,7 +3,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
-import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
@@ -23,8 +22,7 @@ const SearchInput = () => {
 	};
 
 	return (
-		<FormControl sx={{ m: 1, width: '40ch' }} variant="outlined">
-			<InputLabel htmlFor="search-input">Search for a movie</InputLabel>
+		<FormControl sx={{ m: 1, width: '40ch' }}>
 			<OutlinedInput
 				value={searchValue}
 				onChange={(e) => setSearchValue(e.target.value)}
@@ -43,7 +41,7 @@ const SearchInput = () => {
 						</IconButton>
 					</InputAdornment>
 				}
-				label="Search"
+				placeholder="Search"
 				sx={{ bgcolor: colors.common.black }}
 			/>
 		</FormControl>
