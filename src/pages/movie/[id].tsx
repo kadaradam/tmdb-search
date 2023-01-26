@@ -191,6 +191,8 @@ export default function MovieDetails({
 								borderStyle: 'solid',
 								borderColor: '#1b2838',
 							}}
+							placeholder="blur"
+							blurDataURL={imgSrc}
 						/>
 					</PosterImgBox>
 					<Box mb={2} ml={3} mt={3} width="100%">

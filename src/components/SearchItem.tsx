@@ -62,6 +62,8 @@ const SearchItem = ({
 						onError={() =>
 							setImgSrc('/assets/default-fallback-image.png')
 						}
+						placeholder="blur"
+						blurDataURL={imgSrc}
 					/>
 				</Box>
 				<Typography
