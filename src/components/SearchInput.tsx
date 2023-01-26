@@ -11,6 +11,8 @@ const SearchInput = () => {
 	const [searchValue, setSearchValue] = useState<string>('');
 	const router = useRouter();
 
+	const isHomePage = router.asPath === '/';
+
 	const handleSubmit = () => {
 		router.push(`/search?query=${searchValue}`);
 	};
@@ -22,7 +24,10 @@ const SearchInput = () => {
 	};
 
 	return (
-		<FormControl sx={{ m: 1, width: '40ch' }}>
+		<FormControl
+			sx={{ m: 1, width: '40ch' }}
+			size={isHomePage ? 'medium' : 'small'}
+		>
 			<OutlinedInput
 				value={searchValue}
 				onChange={(e) => setSearchValue(e.target.value)}
