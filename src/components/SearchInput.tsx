@@ -1,15 +1,18 @@
 import colors from '@/theme/colors';
 import SearchIcon from '@mui/icons-material/Search';
+import CircularProgress from '@mui/material/CircularProgress';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { useRouterLoading } from 'src/hooks';
 
 const SearchInput = () => {
 	const [searchValue, setSearchValue] = useState<string>('');
 	const router = useRouter();
+	const isSearchLoading = useRouterLoading();
 
 	const isHomePage = router.asPath === '/';
 
@@ -36,14 +39,18 @@ const SearchInput = () => {
 				onKeyDown={handleInputKeys}
 				endAdornment={
 					<InputAdornment position="end">
-						<IconButton
-							aria-label="search for a movie"
-							onClick={handleSubmit}
-							onMouseDown={() => {}}
-							edge="end"
-						>
-							<SearchIcon />
-						</IconButton>
+						{isSearchLoading ? (
+							<CircularProgress color="info" size={24} />
+						) : (
+							<IconButton
+								aria-label="search for a movie"
+								onClick={handleSubmit}
+								onMouseDown={() => {}}
+								edge="end"
+							>
+								<SearchIcon />
+							</IconButton>
+						)}
 					</InputAdornment>
 				}
 				placeholder="Search"
