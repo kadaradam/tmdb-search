@@ -1,4 +1,6 @@
+import colors from '@/theme/colors';
 import { TmdbConfigType, TrendingApiResponseType, TrendingType } from '@/types';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Drawer from '@mui/material/Drawer';
@@ -63,11 +65,22 @@ const RelatedItemsDrawer = ({
 					</Box>
 				) : null}
 				{isEmpty ? (
-					<Typography variant="h6" textAlign="center">
-						Wops. We couldn&apos;t find any related movie for &quot;
-						<strong>{title}</strong>
-						&quot;
-					</Typography>
+					<Box
+						display="flex"
+						alignItems="center"
+						flexDirection="column"
+					>
+						<SentimentVeryDissatisfiedIcon
+							fontSize="large"
+							sx={{ fill: colors.imdbYellow[50] }}
+						/>
+						<Typography variant="body1" textAlign="center" pt={2}>
+							Wops. We couldn&apos;t find any related movie for
+							&quot;
+							<strong>{title}</strong>
+							&quot;
+						</Typography>
+					</Box>
 				) : null}
 				{data?.map((item) => (
 					<Box key={item.id} pb={4}>
