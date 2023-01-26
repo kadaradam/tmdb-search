@@ -47,6 +47,7 @@ const SearchInput = () => {
 								onClick={handleSubmit}
 								onMouseDown={() => {}}
 								edge="end"
+								disabled={!searchValue}
 							>
 								<SearchIcon />
 							</IconButton>
