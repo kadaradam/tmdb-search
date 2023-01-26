@@ -13,7 +13,7 @@ import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Container from '@mui/material/Container';
 import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
+import Stack, { StackProps } from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/system';
@@ -32,7 +32,17 @@ interface ParamsType extends ParsedUrlQuery {
 	id: string;
 }
 
-const POSTER_HEIGHT = 308;
+const POSTER_SIZES = {
+	mobile: {
+		width: 108,
+		height: 162,
+	},
+	desktop: {
+		width: 205,
+		height: 308,
+	},
+};
+const ICON_SIZE = 40;
 
 export const getServerSideProps: GetServerSideProps<{
 	configuration: TmdbConfigType;
@@ -103,90 +113,90 @@ export default function MovieDetails({
 					backgroundImage: `url(${configuration.images.secure_base_url}w1280${movie.backdrop_path})`,
 				}}
 			/>
-			<Container maxWidth="lg" sx={{ minHeight: '75vh' }}>
+			<Container
+				maxWidth="lg"
+				sx={{ minHeight: '75vh', position: 'relative' }}
+			>
+				<LinkStack>
+					{hasWikiPage ? (
+						<Tooltip title="Open Wikipedia">
+							<NextLink
+								href={WIKIPEDIA_BASE_URL + wikipedia.pageId}
+								target="_blank"
+								passHref
+							>
+								<IconButton
+									aria-label="open wikipedia"
+									component="label"
+									disableRipple
+								>
+									<WikipediaIcon />
+								</IconButton>
+							</NextLink>
+						</Tooltip>
+					) : null}
+					{movie.imdb_id ? (
+						<Tooltip title="Open IMDB">
+							<NextLink
+								href={IMDB_BASE_URL + movie.imdb_id}
+								target="_blank"
+								passHref
+							>
+								<IconButton
+									aria-label="open imdb"
+									component="label"
+									disableRipple
+								>
+									<ImdbIcon
+										sx={{
+											fill: colors.imdbYellow[50],
+										}}
+									/>
+								</IconButton>
+							</NextLink>
+						</Tooltip>
+					) : null}
+					{movie.homepage ? (
+						<Tooltip title="Open homepage">
+							<NextLink
+								href={movie.homepage}
+								target="_blank"
+								passHref
+							>
+								<IconButton
+									aria-label="open homepage"
+									component="label"
+									disableRipple
+								>
+									<LinkIcon />
+								</IconButton>
+							</NextLink>
+						</Tooltip>
+					) : null}
+				</LinkStack>
 				<Box display="flex" flexDirection="row" mb={2}>
-					<Image
-						src={imgSrc}
-						alt={title}
-						height={POSTER_HEIGHT}
-						width={205}
-						onError={() =>
-							setImgSrc('/assets/default-fallback-image.png')
-						}
-						style={{
-							display: 'inline-block',
-							borderWidth: 3,
-							borderStyle: 'solid',
-							borderColor: '#1b2838',
-							transform: `translateY(calc(${POSTER_HEIGHT} / 2 * -1px))`,
-						}}
-					/>
+					<PosterImgBox>
+						<Image
+							src={imgSrc}
+							alt={title}
+							fill
+							sizes="(max-width: 768px) 100vw,
+								(max-width: 1200px) 50vw,
+								33vw"
+							onError={() =>
+								setImgSrc('/assets/default-fallback-image.png')
+							}
+							style={{
+								borderWidth: 3,
+								borderStyle: 'solid',
+								borderColor: '#1b2838',
+							}}
+						/>
+					</PosterImgBox>
 					<Box mb={2} ml={3} mt={3} width="100%">
-						<Stack direction="row" spacing={1}>
-							<Typography variant="h4" fontWeight="bold">
-								{title}
-							</Typography>
-							<Box flexGrow={1} />
-							{hasWikiPage ? (
-								<Tooltip title="Open Wikipedia">
-									<NextLink
-										href={
-											WIKIPEDIA_BASE_URL +
-											wikipedia.pageId
-										}
-										target="_blank"
-										passHref
-									>
-										<IconButton
-											aria-label="open wikipedia"
-											component="label"
-											disableRipple
-										>
-											<WikipediaIcon fontSize="large" />
-										</IconButton>
-									</NextLink>
-								</Tooltip>
-							) : null}
-							{movie.imdb_id ? (
-								<Tooltip title="Open IMDB">
-									<NextLink
-										href={IMDB_BASE_URL + movie.imdb_id}
-										target="_blank"
-										passHref
-									>
-										<IconButton
-											aria-label="open imdb"
-											component="label"
-											disableRipple
-										>
-											<ImdbIcon
-												sx={{
-													fill: colors.imdbYellow[50],
-												}}
-												fontSize="large"
-											/>
-										</IconButton>
-									</NextLink>
-								</Tooltip>
-							) : null}
-							{movie.homepage ? (
-								<Tooltip title="Open homepage">
-									<NextLink
-										href={movie.homepage}
-										target="_blank"
-										passHref
-									>
-										<IconButton
-											aria-label="open homepage"
-											component="label"
-											disableRipple
-										>
-											<LinkIcon fontSize="large" />
-										</IconButton>
-									</NextLink>
-								</Tooltip>
-							) : null}
-						</Stack>
+						<Typography variant="h4" fontWeight="bold">
+							{title}
+						</Typography>
 						<Ul>
 							<Li>
 								<Typography variant="body2" gutterBottom>
@@ -294,6 +304,42 @@ const Ul = styled('ul')({
 });
 
 const ContentBox = styled(Box)(({ theme }) => ({
-	marginTop: `${(POSTER_HEIGHT / 2 - parseInt(theme.spacing(2))) * -1}px`,
 	marginBottom: theme.spacing(5),
+	position: 'relative',
+	// Desktop
+	[theme.breakpoints.up('sm')]: {
+		top: `${(POSTER_SIZES['desktop'].height / 2) * -1}px`,
+		marginTop: theme.spacing(5),
+	},
+	// Mobile
+	[theme.breakpoints.down('sm')]: {
+		top: `${(POSTER_SIZES['mobile'].height / 2) * -1}px`,
+		marginTop: theme.spacing(10),
+	},
+}));
+
+const LinkStack = styled((props: StackProps) => (
+	<Stack direction="row" spacing={1} position="absolute" {...props} />
+))(({ theme }) => ({
+	...theme.unstable_sx({ bgcolor: 'background.default' }),
+	right: theme.spacing(2),
+	top: (ICON_SIZE + parseInt(theme.spacing(0.5 * 2))) * -1, // Icon size + padding bottom + pading top / 8 + 4 + 4
+	borderRadius: '10px 10px 0px 0px',
+	padding: theme.spacing(0.5),
+}));
+
+const PosterImgBox = styled(Box)(({ theme }) => ({
+	position: 'relative',
+	// Desktop
+	[theme.breakpoints.up('sm')]: {
+		height: POSTER_SIZES['desktop'].height,
+		minWidth: POSTER_SIZES['desktop'].width,
+		transform: `translateY(calc(${POSTER_SIZES['desktop'].height} / 2 * -1px))`,
+	},
+	// Mobile
+	[theme.breakpoints.down('sm')]: {
+		height: POSTER_SIZES['mobile'].height,
+		minWidth: POSTER_SIZES['mobile'].width,
+		transform: `translateY(calc(${POSTER_SIZES['mobile'].height} / 2 * -1px))`,
+	},
 }));
