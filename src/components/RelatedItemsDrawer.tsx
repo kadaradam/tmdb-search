@@ -61,7 +61,7 @@ const RelatedItemsDrawer = ({
 				isOnMobile
 					? {
 							square: false,
-							sx: { height: `calc(75% - ${DRAWER_BLEEDING}px)` },
+							sx: { height: `calc(90% - ${DRAWER_BLEEDING}px)` },
 					  }
 					: { sx: { width: 400 } }
 			}
