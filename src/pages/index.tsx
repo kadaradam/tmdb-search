@@ -59,7 +59,7 @@ export default function Home({
 				<Typography variant="h4" fontWeight="bold" mb={3}>
 					Trending Movies
 				</Typography>
-				<Grid container spacing={4}>
+				<Grid container spacing={4} data-testid="trending-list">
 					{trending.map((item) => (
 						<Grid item xs={6} sm={4} md={2} key={item.id}>
 							<SearchItem
