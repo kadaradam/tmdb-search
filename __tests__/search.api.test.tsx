@@ -1,13 +1,11 @@
 import { TrendingApiResponseType } from '@/types';
 import { testApiHandler } from 'next-test-api-route-handler';
-import handler, {
-	mandatoryError,
-	unexpectedError,
-} from 'src/pages/api/recommendations';
+import handler, { mandatoryError } from 'src/pages/api/search';
 
-const MOVIE_ID = '343611';
+const MOVIE_NAME = 'Avatar';
+const PAGE = 2;
 
-describe('/api/recommendations.ts', () => {
+describe('/api/search.ts', () => {
 	const params = {
 		handler,
 	};
@@ -19,11 +17,13 @@ describe('/api/recommendations.ts', () => {
 		test('200', async () => {
 			await testApiHandler({
 				...params,
-				url: `/api/recommendations?movieId=${MOVIE_ID}`,
+				url: `/api/search?query=${MOVIE_NAME}`,
 				test: async ({ fetch }) => {
 					const res = await fetch(requestInit);
 					const result =
 						(await res.json()) as TrendingApiResponseType;
+
+					console.log(result);
 
 					expect(res.status).toBe(200);
 					expect(result).toHaveProperty('page');
@@ -34,10 +34,28 @@ describe('/api/recommendations.ts', () => {
 				},
 			});
 		});
-		test('400: Missing query.movieId', async () => {
+		test('200 | page 2', async () => {
 			await testApiHandler({
 				...params,
-				url: `/api/recommendations`,
+				url: `/api/search?query=${MOVIE_NAME}&page=${PAGE}`,
+				test: async ({ fetch }) => {
+					const res = await fetch(requestInit);
+					const result =
+						(await res.json()) as TrendingApiResponseType;
+
+					expect(res.status).toBe(200);
+					expect(result).toHaveProperty('page', PAGE);
+					expect(result).toHaveProperty('total_pages');
+					expect(result).toHaveProperty('total_results');
+					expect(result.results.length).toBeGreaterThan(0);
+					expect(result.results[0]).toHaveProperty('original_title');
+				},
+			});
+		});
+		test('400: Missing query.query param', async () => {
+			await testApiHandler({
+				...params,
+				url: `/api/search`,
 				test: async ({ fetch }) => {
 					const res = await fetch(requestInit);
 
@@ -45,20 +63,6 @@ describe('/api/recommendations.ts', () => {
 					await expect(res.json()).resolves.toStrictEqual(
 						mandatoryError
 					);
-				},
-			});
-		});
-		test('404: Invalid movieId provided', async () => {
-			await testApiHandler({
-				...params,
-				url: `/api/recommendations?movieId=asd`,
-				test: async ({ fetch }) => {
-					const res = await fetch(requestInit);
-
-					const result = await res.json();
-
-					expect(res.status).toBe(500);
-					expect(result).toStrictEqual(unexpectedError);
 				},
 			});
 		});

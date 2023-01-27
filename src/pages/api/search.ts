@@ -4,17 +4,22 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import tmdbAxios from 'src/instances/tmdbAxios';
 import { ServerError } from 'src/utils/ServerError';
 
-interface SearchApiRequest extends NextApiRequest {
-	body: { query: string; page?: number };
-}
+// Error will be shown on frontend as a snackbar
+export const unexpectedError = new ServerError('Unable to search for movies.');
+export const mandatoryError = { message: "'query' query param is mandatory!" };
 
 export default async function handler(
-	req: SearchApiRequest,
+	req: NextApiRequest,
 	res: NextApiResponse<TrendingApiResponseType | ServerError>
 ) {
 	if (req.method === 'GET') {
 		try {
 			const { query, page = 1 } = req.query;
+
+			if (!query) {
+				res.status(400).json(mandatoryError);
+				return;
+			}
 
 			const { data } = await tmdbAxios.get<TrendingApiResponseType>(
 				`/search/movie?query=${query}&page=${page}`
@@ -24,9 +29,7 @@ export default async function handler(
 		} catch (err) {
 			console.error(`Failed to get search result. Error: ${err}`);
 
-			return res
-				.status(500)
-				.send(new ServerError('Unable to search for movies.'));
+			return res.status(500).send(unexpectedError);
 		}
 	} else {
 		res.status(405).end();
