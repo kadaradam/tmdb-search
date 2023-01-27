@@ -52,18 +52,22 @@ export const getServerSideProps: GetServerSideProps<{
 	try {
 		const { id } = params as ParamsType;
 
-		const [{ data: configuration }, { data: movie, status: movieStatus }] =
-			await Promise.all([
-				tmdbAxios.get<TmdbConfigType>('/configuration'),
-				tmdbAxios.get<MovieType>(`/movie/${id}`),
-			]);
+		const [{ data: configuration }, { data: movie }] = await Promise.all([
+			tmdbAxios.get<TmdbConfigType>('/configuration'),
+			tmdbAxios.get<MovieType>(`/movie/${id}`),
+		]);
 
 		const title = movie.original_title || movie.title;
 
 		const { data: wikipedia } = await axios.get<WikipediaApiResponseType>(
 			`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${encodeURI(
 				title
-			)}`
+			)}`,
+			{
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			}
 		);
 
 		const wikiPageFound = wikipedia && !wikipedia?.query.pages[-1];
