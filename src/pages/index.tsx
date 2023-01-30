@@ -20,15 +20,23 @@ export const getServerSideProps: GetServerSideProps<{
 		tmdbAxios.get<TmdbConfigType>('/configuration'),
 	]);
 
-	const allTrendingItems = trending.results;
-	const shortTrendingItems = allTrendingItems.slice(0, 12);
+	const shortTrendingItems = trending.results.slice(0, 12);
+	/* 
+		The random item will be used as a background.
+		Find one that has backdrop image property
+	*/
+	const randomTrendingItems = trending.results.filter(
+		(item) => item.backdrop_path
+	);
 
 	/* 
 		Get random item on server side, so the item will
 		be the same when page renders on client side
 	*/
 	const randomTrending =
-		allTrendingItems[Math.floor(Math.random() * allTrendingItems.length)];
+		randomTrendingItems[
+			Math.floor(Math.random() * randomTrendingItems.length)
+		];
 
 	return {
 		props: {
@@ -48,7 +56,10 @@ export default function Home({
 		<HomeLayout>
 			<HeroBackgroundBox
 				style={{
-					backgroundImage: `url("${configuration.images.secure_base_url}w1280${randomTrending.backdrop_path}")`,
+					// backdrop_path will be always defined here, since we added filter to it on server side
+					backgroundImage: `url("${
+						configuration.images.secure_base_url
+					}w1280${randomTrending.backdrop_path as string}")`,
 				}}
 			>
 				<OverlayBox />

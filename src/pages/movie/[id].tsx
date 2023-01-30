@@ -24,7 +24,11 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { useState } from 'react';
-import { IMDB_BASE_URL, WIKIPEDIA_BASE_URL } from 'src/constants';
+import {
+	FALLBACK_POSTER_IMG_PATH,
+	IMDB_BASE_URL,
+	WIKIPEDIA_BASE_URL,
+} from 'src/constants';
 import { ImdbIcon, WikipediaIcon } from 'src/icons';
 import tmdbAxios from 'src/instances/tmdbAxios';
 
@@ -103,7 +107,9 @@ export default function MovieDetails({
 	wikipedia,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const [imgSrc, setImgSrc] = useState<string>(
-		`${configuration.images.secure_base_url}w1280${movie.poster_path}`
+		movie.poster_path
+			? `${configuration.images.secure_base_url}w1280${movie.poster_path}`
+			: FALLBACK_POSTER_IMG_PATH
 	);
 
 	const title = movie.original_title || movie.title;
@@ -114,7 +120,9 @@ export default function MovieDetails({
 		<MovieLayout title={title}>
 			<HeroBackgroundBox
 				sx={{
-					backgroundImage: `url(${configuration.images.secure_base_url}w1280${movie.backdrop_path})`,
+					backgroundImage: movie.backdrop_path
+						? `url(${configuration.images.secure_base_url}w1280${movie.backdrop_path})`
+						: 'radial-gradient( circle farthest-corner at 10% 20%,  rgba(37,145,251,0.98) 0.1%, rgba(0,7,128,1) 99.8% )',
 				}}
 			/>
 			<Container
@@ -187,9 +195,7 @@ export default function MovieDetails({
 							sizes="(max-width: 768px) 100vw,
 								(max-width: 1200px) 50vw,
 								33vw"
-							onError={() =>
-								setImgSrc('/assets/default-fallback-image.png')
-							}
+							onError={() => setImgSrc(FALLBACK_POSTER_IMG_PATH)}
 							style={{
 								borderWidth: 3,
 								borderStyle: 'solid',

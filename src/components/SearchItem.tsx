@@ -8,6 +8,7 @@ import { styled } from '@mui/system';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { useState } from 'react';
+import { FALLBACK_POSTER_IMG_PATH } from 'src/constants';
 import { TmdbConfigType, TrendingType } from '../types';
 
 type SearchItemProps = {
@@ -22,7 +23,9 @@ const SearchItem = ({
 	handleShowRelated,
 }: SearchItemProps) => {
 	const [imgSrc, setImgSrc] = useState<string>(
-		`${configuration.images.secure_base_url}w300${item.poster_path}`
+		item.backdrop_path
+			? `${configuration.images.secure_base_url}w300${item.poster_path}`
+			: FALLBACK_POSTER_IMG_PATH
 	);
 
 	const handleRelatedClick = (e: React.MouseEvent) => {
@@ -59,9 +62,7 @@ const SearchItem = ({
 						sizes="(max-width: 768px) 100vw,
 								(max-width: 1200px) 50vw,
 								33vw"
-						onError={() =>
-							setImgSrc('/assets/default-fallback-image.png')
-						}
+						onError={() => setImgSrc(FALLBACK_POSTER_IMG_PATH)}
 						placeholder="blur"
 						blurDataURL={imgSrc}
 					/>
