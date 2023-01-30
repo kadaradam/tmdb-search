@@ -215,14 +215,16 @@ export default function MovieDetails({
 							{title}
 						</Typography>
 						<Ul>
-							<Li>
-								<Typography variant="body2" gutterBottom>
-									{format(
-										new Date(movie.release_date),
-										'yyyy'
-									)}
-								</Typography>
-							</Li>
+							{movie.release_date ? (
+								<Li>
+									<Typography variant="body2" gutterBottom>
+										{format(
+											new Date(movie.release_date),
+											'yyyy'
+										)}
+									</Typography>
+								</Li>
+							) : null}
 							{movie.runtime ? (
 								<Li>
 									<Typography variant="body2" gutterBottom>
