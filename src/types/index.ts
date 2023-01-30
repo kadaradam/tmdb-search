@@ -1,9 +1,9 @@
 export { type MovieType } from './Movie.type';
-export { type TmdbConfigType } from './TMDBConfig.type';
 export {
-	type TrendingApiResponseType,
-	type TrendingType,
-} from './Trending.type';
+	type MovieListItemApiResponseType,
+	type MovieListItemType,
+} from './MovieListItem.type';
+export { type TmdbConfigType } from './TMDBConfig.type';
 export {
 	type WikipediaApiResponseType,
 	type WikipediaType,

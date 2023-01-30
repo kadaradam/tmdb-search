@@ -1,4 +1,4 @@
-import { TrendingApiResponseType } from '@/types';
+import { MovieListItemApiResponseType } from '@/types';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import tmdbAxios from 'src/instances/tmdbAxios';
 import { ServerError } from 'src/utils/ServerError';
@@ -11,7 +11,7 @@ export const mandatoryError = { message: "'movieId' query is mandatory!" };
 
 export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<TrendingApiResponseType | ServerError>
+	res: NextApiResponse<MovieListItemApiResponseType | ServerError>
 ) {
 	if (req.method === 'GET') {
 		const { movieId } = req.query;
@@ -22,7 +22,7 @@ export default async function handler(
 		}
 
 		try {
-			const { data } = await tmdbAxios.get<TrendingApiResponseType>(
+			const { data } = await tmdbAxios.get<MovieListItemApiResponseType>(
 				`/movie/${movieId}/recommendations`
 			);
 

@@ -1,7 +1,7 @@
-import { TrendingApiResponseType } from '@/types';
+import { MovieListItemApiResponseType } from '@/types';
 import { rest } from 'msw';
 
-const movies: Record<string, TrendingApiResponseType> = {
+const movies: Record<string, MovieListItemApiResponseType> = {
 	'Jack Reacher': {
 		page: 1,
 		results: [
@@ -62,7 +62,7 @@ const movies: Record<string, TrendingApiResponseType> = {
 	},
 };
 
-export const searchHandler = rest.get<{}, {}, TrendingApiResponseType>(
+export const searchHandler = rest.get<{}, {}, MovieListItemApiResponseType>(
 	'/api/search',
 	(req, res, ctx) => {
 		const query = req.url.searchParams.get('query');

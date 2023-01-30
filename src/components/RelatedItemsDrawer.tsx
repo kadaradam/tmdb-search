@@ -1,5 +1,9 @@
 import colors from '@/theme/colors';
-import { TmdbConfigType, TrendingApiResponseType, TrendingType } from '@/types';
+import {
+	MovieListItemApiResponseType,
+	MovieListItemType,
+	TmdbConfigType,
+} from '@/types';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { useMediaQuery } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -14,7 +18,7 @@ import clientSideAxios from '../instances/clientSideAxios';
 import SearchItem from './SearchItem';
 
 type RelatedItemsDrawerProps = {
-	movie: TrendingType;
+	movie: MovieListItemType;
 	drawerOpen: boolean;
 	setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	configuration: TmdbConfigType;
@@ -22,8 +26,10 @@ type RelatedItemsDrawerProps = {
 
 const DRAWER_BLEEDING = 56;
 
-const fetcher: Fetcher<TrendingType[], string> = async (url) => {
-	const { data } = await clientSideAxios.get<TrendingApiResponseType>(url);
+const fetcher: Fetcher<MovieListItemType[], string> = async (url) => {
+	const { data } = await clientSideAxios.get<MovieListItemApiResponseType>(
+		url
+	);
 	return data.results;
 };
 

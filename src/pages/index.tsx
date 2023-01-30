@@ -1,7 +1,11 @@
 import SearchInput from '@/components/SearchInput';
 import SearchItem from '@/components/SearchItem';
 import HomeLayout from '@/layouts/HomeLayout';
-import { TmdbConfigType, TrendingApiResponseType, TrendingType } from '@/types';
+import {
+	MovieListItemApiResponseType,
+	MovieListItemType,
+	TmdbConfigType,
+} from '@/types';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -12,11 +16,11 @@ import tmdbAxios from '../instances/tmdbAxios';
 
 export const getServerSideProps: GetServerSideProps<{
 	configuration: TmdbConfigType;
-	trending: TrendingType[];
-	randomTrending: TrendingType;
+	trending: MovieListItemType[];
+	randomTrending: MovieListItemType;
 }> = async () => {
 	const [{ data: trending }, { data: configuration }] = await Promise.all([
-		tmdbAxios.get<TrendingApiResponseType>('/trending/movie/day'),
+		tmdbAxios.get<MovieListItemApiResponseType>('/trending/movie/day'),
 		tmdbAxios.get<TmdbConfigType>('/configuration'),
 	]);
 

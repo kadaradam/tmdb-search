@@ -1,6 +1,6 @@
 /* This test uses real endpoints */
 
-import { TrendingApiResponseType } from '@/types';
+import { MovieListItemApiResponseType } from '@/types';
 import { testApiHandler } from 'next-test-api-route-handler';
 import handler, { mandatoryError } from 'src/pages/api/search';
 
@@ -23,7 +23,7 @@ describe('/api/search.ts', () => {
 				test: async ({ fetch }) => {
 					const res = await fetch(requestInit);
 					const result =
-						(await res.json()) as TrendingApiResponseType;
+						(await res.json()) as MovieListItemApiResponseType;
 
 					expect(res.status).toBe(200);
 					expect(result).toHaveProperty('page');
@@ -41,7 +41,7 @@ describe('/api/search.ts', () => {
 				test: async ({ fetch }) => {
 					const res = await fetch(requestInit);
 					const result =
-						(await res.json()) as TrendingApiResponseType;
+						(await res.json()) as MovieListItemApiResponseType;
 
 					expect(res.status).toBe(200);
 					expect(result).toHaveProperty('page', PAGE);

@@ -9,12 +9,12 @@ import Image from 'next/image';
 import NextLink from 'next/link';
 import { useState } from 'react';
 import { FALLBACK_POSTER_IMG_PATH } from 'src/constants';
-import { TmdbConfigType, TrendingType } from '../types';
+import { MovieListItemType, TmdbConfigType } from '../types';
 
 type SearchItemProps = {
-	item: TrendingType;
+	item: MovieListItemType;
 	configuration: TmdbConfigType;
-	handleShowRelated?: (arg0: TrendingType) => void;
+	handleShowRelated?: (arg0: MovieListItemType) => void;
 };
 
 const SearchItem = ({

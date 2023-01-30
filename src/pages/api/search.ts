@@ -1,5 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import { TrendingApiResponseType } from '@/types';
+import { MovieListItemApiResponseType } from '@/types';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import tmdbAxios from 'src/instances/tmdbAxios';
 import { ServerError } from 'src/utils/ServerError';
@@ -10,7 +10,7 @@ export const mandatoryError = { message: "'query' query param is mandatory!" };
 
 export default async function handler(
 	req: NextApiRequest,
-	res: NextApiResponse<TrendingApiResponseType | ServerError>
+	res: NextApiResponse<MovieListItemApiResponseType | ServerError>
 ) {
 	if (req.method === 'GET') {
 		try {
@@ -21,7 +21,7 @@ export default async function handler(
 				return;
 			}
 
-			const { data } = await tmdbAxios.get<TrendingApiResponseType>(
+			const { data } = await tmdbAxios.get<MovieListItemApiResponseType>(
 				`/search/movie?query=${query}&page=${page}`
 			);
 

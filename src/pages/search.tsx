@@ -1,7 +1,7 @@
 import RelatedItemsDrawer from '@/components/RelatedItemsDrawer';
 import SearchItem from '@/components/SearchItem';
 import SearchLayout from '@/layouts/SearchLayout';
-import { TrendingApiResponseType, TrendingType } from '@/types';
+import { MovieListItemApiResponseType, MovieListItemType } from '@/types';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
@@ -33,8 +33,10 @@ export const getServerSideProps: GetServerSideProps<{
 // TMDB api always returns 20 items / page
 const PAGE_SIZE = 20;
 
-const fetcher: Fetcher<TrendingType[], string> = async (url) => {
-	const { data } = await clientSideAxios.get<TrendingApiResponseType>(url);
+const fetcher: Fetcher<MovieListItemType[], string> = async (url) => {
+	const { data } = await clientSideAxios.get<MovieListItemApiResponseType>(
+		url
+	);
 	//await new Promise((resolve) => setTimeout(resolve, 2000));
 	return data.results;
 };
@@ -45,9 +47,8 @@ export default function Search({
 	const router = useRouter();
 	const { query } = router.query;
 	const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
-	const [selectedMovie, setSelectedMovie] = useState<TrendingType | null>(
-		null
-	);
+	const [selectedMovie, setSelectedMovie] =
+		useState<MovieListItemType | null>(null);
 	const { data, error, size, setSize, isLoading, isValidating } =
 		useSWRInfinite(
 			(index) =>
@@ -68,7 +69,7 @@ export default function Search({
 	const isEndReached =
 		isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
 
-	const handleShowRelated = (movieItem: TrendingType) => {
+	const handleShowRelated = (movieItem: MovieListItemType) => {
 		setSelectedMovie(movieItem);
 		setTimeout(() => setDrawerOpen(true), 250);
 	};

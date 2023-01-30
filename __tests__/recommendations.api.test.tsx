@@ -1,6 +1,6 @@
 /* This test uses real endpoints */
 
-import { TrendingApiResponseType } from '@/types';
+import { MovieListItemApiResponseType } from '@/types';
 import { testApiHandler } from 'next-test-api-route-handler';
 import handler, {
 	mandatoryError,
@@ -25,7 +25,7 @@ describe('/api/recommendations.ts', () => {
 				test: async ({ fetch }) => {
 					const res = await fetch(requestInit);
 					const result =
-						(await res.json()) as TrendingApiResponseType;
+						(await res.json()) as MovieListItemApiResponseType;
 
 					expect(res.status).toBe(200);
 					expect(result).toHaveProperty('page');

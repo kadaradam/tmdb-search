@@ -1,4 +1,4 @@
-export type TrendingType = {
+export type MovieListItemType = {
 	adult: boolean;
 	backdrop_path: string | null;
 	genre_ids: number[];
@@ -15,9 +15,9 @@ export type TrendingType = {
 	popularity: number;
 };
 
-export type TrendingApiResponseType = {
+export type MovieListItemApiResponseType = {
 	page: number;
 	total_pages: number;
 	total_results: number;
-	results: TrendingType[];
+	results: MovieListItemType[];
 };

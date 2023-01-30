@@ -1,6 +1,6 @@
 /* This test uses mocked REST endpoints */
 
-import { TmdbConfigType, TrendingType } from '@/types';
+import { MovieListItemType, TmdbConfigType } from '@/types';
 import { assertHasProps, gsspCtx } from '@/utils';
 import '@testing-library/jest-dom';
 import { render, screen, within } from '@testing-library/react';
@@ -31,8 +31,8 @@ jest.mock('next/router', () => ({
 describe('Home', () => {
 	let props = null as unknown as {
 		configuration: TmdbConfigType;
-		trending: TrendingType[];
-		randomTrending: TrendingType;
+		trending: MovieListItemType[];
+		randomTrending: MovieListItemType;
 	};
 
 	beforeAll(async () => {
