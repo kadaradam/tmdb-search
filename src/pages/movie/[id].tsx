@@ -27,7 +27,8 @@ import { useState } from 'react';
 import {
 	FALLBACK_POSTER_IMG_PATH,
 	IMDB_BASE_URL,
-	WIKIPEDIA_BASE_URL,
+	WIKIPEDIA_API_BASE_URL,
+	WIKIPEDIA_PAGE_BASE_URL,
 } from 'src/constants';
 import { ImdbIcon, WikipediaIcon } from 'src/icons';
 import tmdbAxios from 'src/instances/tmdbAxios';
@@ -64,7 +65,7 @@ export const getServerSideProps: GetServerSideProps<{
 		const title = movie.original_title || movie.title;
 
 		const { data: wikipedia } = await axios.get<WikipediaApiResponseType>(
-			`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${encodeURI(
+			`${WIKIPEDIA_API_BASE_URL}?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${encodeURI(
 				title
 			)}`,
 			{
@@ -133,7 +134,9 @@ export default function MovieDetails({
 					{hasWikiPage ? (
 						<Tooltip title="Open Wikipedia">
 							<NextLink
-								href={WIKIPEDIA_BASE_URL + wikipedia.pageId}
+								href={
+									WIKIPEDIA_PAGE_BASE_URL + wikipedia.pageId
+								}
 								target="_blank"
 								passHref
 							>
