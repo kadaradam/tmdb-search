@@ -1,3 +1,4 @@
+import SocialBar from '@/components/SocialBar';
 import MovieLayout from '@/layouts/MovieLayout';
 import colors from '@/theme/colors';
 import {
@@ -7,13 +8,11 @@ import {
 	WikipediaType,
 } from '@/types';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import LinkIcon from '@mui/icons-material/Link';
 import StarIcon from '@mui/icons-material/Star';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import Stack, { StackProps } from '@mui/material/Stack';
+import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/system';
@@ -21,7 +20,6 @@ import axios from 'axios';
 import { format, formatDuration } from 'date-fns';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import Image from 'next/image';
-import NextLink from 'next/link';
 import { ParsedUrlQuery } from 'querystring';
 import { useState } from 'react';
 import {
@@ -30,7 +28,6 @@ import {
 	WIKIPEDIA_API_BASE_URL,
 	WIKIPEDIA_PAGE_BASE_URL,
 } from 'src/constants';
-import { ImdbIcon, WikipediaIcon } from 'src/icons';
 import tmdbAxios from 'src/instances/tmdbAxios';
 
 interface ParamsType extends ParsedUrlQuery {
@@ -116,6 +113,11 @@ export default function MovieDetails({
 	const title = movie.original_title || movie.title;
 	const hasGenres = !!movie.genres.length;
 	const hasWikiPage = !!wikipedia;
+	const wikipediaUrl = hasWikiPage
+		? WIKIPEDIA_PAGE_BASE_URL + wikipedia.pageId
+		: null;
+	const imdbUrl = movie.imdb_id ? IMDB_BASE_URL + movie.imdb_id : null;
+	const homePageUrl = movie.homepage ? movie.homepage : null;
 
 	return (
 		<MovieLayout title={title}>
@@ -130,67 +132,13 @@ export default function MovieDetails({
 				maxWidth="lg"
 				sx={{ minHeight: '75vh', position: 'relative' }}
 			>
-				<LinkStack>
-					{hasWikiPage ? (
-						<Tooltip title="Open Wikipedia">
-							<NextLink
-								href={
-									WIKIPEDIA_PAGE_BASE_URL + wikipedia.pageId
-								}
-								target="_blank"
-								passHref
-							>
-								<IconButton
-									aria-label="open wikipedia"
-									component="label"
-									disableRipple
-								>
-									<WikipediaIcon />
-								</IconButton>
-							</NextLink>
-						</Tooltip>
-					) : null}
-					{movie.imdb_id ? (
-						<Tooltip title="Open IMDB">
-							<NextLink
-								href={IMDB_BASE_URL + movie.imdb_id}
-								target="_blank"
-								passHref
-								aria-label="imdb link"
-							>
-								<IconButton
-									aria-label="open imdb"
-									component="label"
-									disableRipple
-								>
-									<ImdbIcon
-										sx={{
-											fill: colors.imdbYellow[50],
-										}}
-									/>
-								</IconButton>
-							</NextLink>
-						</Tooltip>
-					) : null}
-					{movie.homepage ? (
-						<Tooltip title="Open homepage">
-							<NextLink
-								href={movie.homepage}
-								target="_blank"
-								passHref
-								aria-label="homepage link"
-							>
-								<IconButton
-									aria-label="open homepage"
-									component="label"
-									disableRipple
-								>
-									<LinkIcon />
-								</IconButton>
-							</NextLink>
-						</Tooltip>
-					) : null}
-				</LinkStack>
+				{wikipediaUrl || imdbUrl || homePageUrl ? (
+					<SocialBar
+						wikipediaUrl={wikipediaUrl}
+						imdbUrl={imdbUrl}
+						homePageUrl={homePageUrl}
+					/>
+				) : null}
 				<Box display="flex" flexDirection="row" mb={2}>
 					<PosterImgBox>
 						<Image
@@ -335,16 +283,6 @@ const ContentBox = styled(Box)(({ theme }) => ({
 		top: `${(POSTER_SIZES['mobile'].height / 2) * -1}px`,
 		marginTop: theme.spacing(10),
 	},
-}));
-
-const LinkStack = styled((props: StackProps) => (
-	<Stack direction="row" spacing={1} position="absolute" {...props} />
-))(({ theme }) => ({
-	...theme.unstable_sx({ bgcolor: 'background.default' }),
-	right: theme.spacing(2),
-	top: (ICON_SIZE + parseInt(theme.spacing(0.5 * 2))) * -1, // Icon size + padding bottom + pading top / 8 + 4 + 4
-	borderRadius: '10px 10px 0px 0px',
-	padding: theme.spacing(0.5),
 }));
 
 const PosterImgBox = styled(Box)(({ theme }) => ({
