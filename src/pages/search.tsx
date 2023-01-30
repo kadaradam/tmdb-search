@@ -85,20 +85,22 @@ export default function Search({
 					&quot;
 				</Typography>
 			) : null}
-			<Grid container spacing={4}>
-				{movies.map((item) => (
-					<Grid item xs={6} sm={4} md={2} key={item.id}>
-						<SearchItem
-							item={item}
-							configuration={configuration}
-							handleShowRelated={handleShowRelated}
-						/>
-					</Grid>
-				))}
-			</Grid>
+			{!isEmpty && !!movies.length ? (
+				<Grid container spacing={4} data-testid="search-list">
+					{movies.map((item) => (
+						<Grid item xs={6} sm={4} md={2} key={item.id}>
+							<SearchItem
+								item={item}
+								configuration={configuration}
+								handleShowRelated={handleShowRelated}
+							/>
+						</Grid>
+					))}
+				</Grid>
+			) : null}
 			{!isLoaded && isLoading ? (
 				<Box display="flex" justifyContent="center" mt={4}>
-					<CircularProgress size={86} />
+					<CircularProgress size={86} aria-label="search loading" />
 				</Box>
 			) : null}
 			{isLoaded && !isEndReached ? (
@@ -108,6 +110,7 @@ export default function Search({
 						variant="contained"
 						size="large"
 						loading={isLoadingMore}
+						data-testid="search load more"
 					>
 						Load more
 					</LoadingButton>
