@@ -23,8 +23,6 @@ describe('/api/search.ts', () => {
 					const result =
 						(await res.json()) as TrendingApiResponseType;
 
-					console.log(result);
-
 					expect(res.status).toBe(200);
 					expect(result).toHaveProperty('page');
 					expect(result).toHaveProperty('total_pages');
