@@ -11,12 +11,14 @@ import { useRouterLoading } from 'src/hooks';
 
 const SearchInput = () => {
 	const [searchValue, setSearchValue] = useState<string>('');
+	const [formSubmitted, setFormSubmitted] = useState<boolean>();
 	const router = useRouter();
 	const isSearchLoading = useRouterLoading();
 
 	const isHomePage = router.asPath === '/';
 
 	const handleSubmit = () => {
+		setFormSubmitted(true);
 		router.push(`/search?query=${searchValue}`);
 	};
 
@@ -39,7 +41,7 @@ const SearchInput = () => {
 				onKeyDown={handleInputKeys}
 				endAdornment={
 					<InputAdornment position="end">
-						{isSearchLoading ? (
+						{isSearchLoading && formSubmitted ? (
 							<CircularProgress color="info" size={24} />
 						) : (
 							<IconButton
