@@ -72,7 +72,7 @@ const SearchItem = ({
 					fontWeight="bold"
 					className="movie-title"
 				>
-					{item.original_name || item.title}
+					{item.original_title || item.title}
 				</Typography>
 				<Typography variant="caption" textTransform="uppercase">
 					{item.vote_count} votes
