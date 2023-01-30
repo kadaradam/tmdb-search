@@ -1,3 +1,5 @@
+/* This test uses real endpoints */
+
 import { TrendingApiResponseType } from '@/types';
 import { testApiHandler } from 'next-test-api-route-handler';
 import handler, {

@@ -1,7 +1,10 @@
+/* This test uses mocked REST endpoints */
+
 import { TmdbConfigType, TrendingType } from '@/types';
 import { assertHasProps, gsspCtx } from '@/utils';
 import '@testing-library/jest-dom';
 import { render, screen, within } from '@testing-library/react';
+import 'src/mock/setup';
 import Home, { getServerSideProps } from 'src/pages';
 
 const RELATED_ITEM_SIZE = 12;
