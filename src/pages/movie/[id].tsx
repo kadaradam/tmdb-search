@@ -126,6 +126,7 @@ export default function MovieDetails({
 						: 'radial-gradient( circle farthest-corner at 10% 20%,  rgba(37,145,251,0.98) 0.1%, rgba(0,7,128,1) 99.8% )',
 				}}
 			/>
+			<h1 data-testid="kuka">asd</h1>
 			<Container
 				maxWidth="lg"
 				sx={{ minHeight: '75vh', position: 'relative' }}
@@ -139,6 +140,7 @@ export default function MovieDetails({
 								}
 								target="_blank"
 								passHref
+								aria-label="asd"
 							>
 								<IconButton
 									aria-label="open wikipedia"
@@ -156,6 +158,7 @@ export default function MovieDetails({
 								href={IMDB_BASE_URL + movie.imdb_id}
 								target="_blank"
 								passHref
+								aria-label="imdb link"
 							>
 								<IconButton
 									aria-label="open imdb"
@@ -177,6 +180,7 @@ export default function MovieDetails({
 								href={movie.homepage}
 								target="_blank"
 								passHref
+								aria-label="homepage link"
 							>
 								<IconButton
 									aria-label="open homepage"
